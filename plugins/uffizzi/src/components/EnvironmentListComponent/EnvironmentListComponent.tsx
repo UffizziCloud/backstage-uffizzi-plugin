@@ -11,15 +11,15 @@ import {
 } from '@backstage/core-components';
 import { ExampleFetchComponent } from '../ExampleFetchComponent';
 
-export const ExampleComponent = () => (
+export const EnvironmentListComponent = () => (
   <Page themeId="tool">
-    <Header title="Welcome to uffizzi!" subtitle="Optional subtitle">
+    <Header title="Uffizzi" subtitle="Ephemeral environments dashboard">
       <HeaderLabel label="Owner" value="Team X" />
       <HeaderLabel label="Lifecycle" value="Alpha" />
     </Header>
     <Content>
-      <ContentHeader title="Plugin title">
-        <SupportButton>A description of your plugin goes here.</SupportButton>
+      <ContentHeader title="Uffizzi">
+        <SupportButton>Uffizzi creates epehemeral environments for your </SupportButton>
       </ContentHeader>
       <Grid container spacing={3} direction="column">
         <Grid item>

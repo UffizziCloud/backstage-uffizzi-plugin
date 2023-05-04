@@ -12,54 +12,86 @@ const useStyles = makeStyles({
   },
 });
 
-type User = {
-  gender: string; // "male"
-  name: {
-    title: string; // "Mr",
-    first: string; // "Duane",
-    last: string; // "Reed"
-  };
-  location: object; // {street: {number: 5060, name: "Hickory Creek Dr"}, city: "Albany", state: "New South Wales",…}
-  email: string; // "duane.reed@example.com"
-  login: object; // {uuid: "4b785022-9a23-4ab9-8a23-cb3fb43969a9", username: "blackdog796", password: "patch",…}
-  dob: object; // {date: "1983-06-22T12:30:23.016Z", age: 37}
-  registered: object; // {date: "2006-06-13T18:48:28.037Z", age: 14}
-  phone: string; // "07-2154-5651"
-  cell: string; // "0405-592-879"
-  id: {
-    name: string; // "TFN",
-    value: string; // "796260432"
-  };
-  picture: { medium: string }; // {medium: "https://randomuser.me/api/portraits/men/95.jpg",…}
-  nat: string; // "AU"
-};
+interface Deployment {
+  id: number
+  kind: string
+  project_id: number
+  created_at: string
+  updated_at: string
+  state: string
+  preview_url: string
+  tag: string
+  branch: any
+  commit: string
+  image_id: string
+  ingress_container_ready: boolean
+  ingress_container_state: string
+  creation_source: string
+  pull_request_number: string
+  containers: Container[]
+  deployed_by: DeployedBy
+  compose_file: ComposeFile
+}
+
+interface Container {
+  id: number
+  kind: string
+  image: string
+  tag: string
+  variables: Variable[]
+  secret_variables: any[]
+  created_at: string
+  updated_at: string
+  memory_limit: number
+  memory_request: number
+  entrypoint?: string
+  command?: string
+  port?: number
+  public: boolean
+  repo_id: number
+  continuously_deploy: string
+  receive_incoming_requests: boolean
+  service_name: string
+  controller_name: string
+}
+
+interface Variable {
+  name: string
+  value: string
+}
+
+interface DeployedBy {
+  kind: string
+  avatar_url: string
+  profile_url: string
+  id: number
+}
+
+interface ComposeFile {
+  source: string
+  branch: any
+  path: string
+}
+
 
 type DenseTableProps = {
-  users: User[];
+  deployments: Deployment[];
 };
 
-export const DenseTable = ({ users }: DenseTableProps) => {
+export const DenseTable = ({ deployments }: DenseTableProps) => {
   const classes = useStyles();
 
   const columns: TableColumn[] = [
-    { title: 'Avatar', field: 'avatar' },
-    { title: 'Name', field: 'name' },
-    { title: 'Email', field: 'email' },
-    { title: 'Nationality', field: 'nationality' },
+    { title: 'ID', field: 'id' },
+    { title: 'Pull Request Number', field: 'pull_request_number' },
+    { title: 'Preview URL', field: 'preview_url' },
   ];
 
-  const data = users.map(user => {
+  const data = deployments.map(deployment => {
     return {
-      avatar: (
-        <img
-          src={user.picture.medium}
-          className={classes.avatar}
-          alt={user.name.first}
-        />
-      ),
-      name: `${user.name.first} ${user.name.last}`,
-      email: user.email,
-      nationality: user.nat,
+      id: `${deployment.id}`,
+      pull_request_number: deployment.pull_request_number,
+      preview_url: deployment.preview_url,
     };
   });
 
@@ -75,10 +107,10 @@ export const DenseTable = ({ users }: DenseTableProps) => {
 
 export const ExampleFetchComponent = () => {
   const { fetch } = useApi(fetchApiRef);
-  const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    const response = await fetch('https://randomuser.me/api/?results=20');
+  const { value, loading, error } = useAsync(async (): Promise<Deployment[]> => {
+    const response = await fetch('https://app.uffizzi.com/api/v1/public/projects/4436/deployments');
     const data = await response.json();
-    return data.results;
+    return data.deployments;
   }, []);
 
   if (loading) {
@@ -87,5 +119,5 @@ export const ExampleFetchComponent = () => {
     return <ResponseErrorPanel error={error} />;
   }
 
-  return <DenseTable users={value || []} />;
+  return <DenseTable deployments={value || []} />;
 };

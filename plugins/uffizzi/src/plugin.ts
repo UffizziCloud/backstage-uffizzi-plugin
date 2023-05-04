@@ -13,7 +13,7 @@ export const UffizziPage = uffizziPlugin.provide(
   createRoutableExtension({
     name: 'UffizziPage',
     component: () =>
-      import('./components/ExampleComponent').then(m => m.ExampleComponent),
+      import('./components/EnvironmentListComponent').then(m => m.EnvironmentListComponent),
     mountPoint: rootRouteRef,
   }),
 );

@@ -1,0 +1,102 @@
+{
+  "deployments": [
+    {
+      "id": 18666,
+      "kind": "standard",
+      "project_id": 4436,
+      "created_at": "2023-03-10T15:13:00.090Z",
+      "updated_at": "2023-03-10T15:13:00.485Z",
+      "state": "active",
+      "preview_url": "app.uffizzi.com/github.com/backstage/backstage/pull/16810",
+      "tag": "60d",
+      "branch": null,
+      "commit": "",
+      "image_id": "4ad692d6-902d-4562-9cda-1ba5c90e3249",
+      "ingress_container_ready": true,
+      "ingress_container_state": "deployed",
+      "creation_source": "github_actions",
+      "pull_request_number": "16810",
+      "containers": [
+        {
+          "id": 73167,
+          "kind": "user",
+          "image": "library/postgres",
+          "tag": "latest",
+          "variables": [
+            {
+              "name": "POSTGRES_PASSWORD",
+              "value": "**********"
+            }
+          ],
+          "secret_variables": [],
+          "created_at": "2023-03-10T15:13:00.116Z",
+          "updated_at": "2023-03-10T15:13:00.462Z",
+          "memory_limit": 250,
+          "memory_request": 250,
+          "entrypoint": null,
+          "command": null,
+          "port": null,
+          "public": false,
+          "repo_id": 72691,
+          "continuously_deploy": "enabled",
+          "receive_incoming_requests": false,
+          "service_name": "db",
+          "controller_name": "05d220a80e"
+        },
+        {
+          "id": 73166,
+          "kind": "user",
+          "image": "registry.uffizzi.com:443/4ad692d6-902d-4562-9cda-1ba5c90e3249",
+          "tag": "60d",
+          "variables": [
+            {
+              "name": "POSTGRES_HOST",
+              "value": "*********"
+            },
+            {
+              "name": "POSTGRES_PORT",
+              "value": "****"
+            },
+            {
+              "name": "POSTGRES_USER",
+              "value": "********"
+            },
+            {
+              "name": "POSTGRES_PASSWORD",
+              "value": "**********"
+            },
+            {
+              "name": "NODE_ENV",
+              "value": "**********"
+            }
+          ],
+          "secret_variables": [],
+          "created_at": "2023-03-10T15:13:00.104Z",
+          "updated_at": "2023-03-10T15:13:00.482Z",
+          "memory_limit": 500,
+          "memory_request": 500,
+          "entrypoint": "[\"/bin/sh\"]",
+          "command": "[\"-c\", \"APP_CONFIG_app_baseUrl=$$UFFIZZI_URL APP_CONFIG_backend_baseUrl=$$UFFIZZI_URL APP_CONFIG_auth_environment='production' node packages/backend --config app-config.yaml\"]",
+          "port": 7007,
+          "public": true,
+          "repo_id": 72690,
+          "continuously_deploy": "enabled",
+          "receive_incoming_requests": true,
+          "service_name": "backstage",
+          "controller_name": "47bb6bd140"
+        }
+      ],
+      "deployed_by": {
+        "kind": "github",
+        "avatar_url": "https://avatars.githubusercontent.com/u/74306126",
+        "profile_url": "https://github.com/backstage-service",
+        "id": 4989
+      },
+      "compose_file": {
+        "source": "/github/workspace/docker-compose.rendered.yml",
+        "branch": null,
+        "path": "/github/workspace/docker-compose.rendered.yml"
+      }
+    }
+  ]
+}
