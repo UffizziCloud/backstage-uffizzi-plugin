@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableColumn, Progress, ResponseErrorPanel } from '@backstage/core-components';
-import { fetchApiRef, useApi } from '@backstage/core-plugin-api';
+import { fetchApiRef, useApi, configApiRef } from '@backstage/core-plugin-api';
 import useAsync from 'react-use/lib/useAsync';
 
 const useStyles = makeStyles({
@@ -107,8 +107,10 @@ export const DenseTable = ({ deployments }: DenseTableProps) => {
 
 export const ExampleFetchComponent = () => {
   const { fetch } = useApi(fetchApiRef);
+  const config = useApi(configApiRef); 
+  const backendUrl = config.getString('backend.baseUrl');
   const { value, loading, error } = useAsync(async (): Promise<Deployment[]> => {
-    const response = await fetch('http://localhost:7007/api/proxy/uffizzi');
+    const response = await fetch(`${backendUrl}/api/proxy/uffizzi`);
     const data = await response.json();
     console.log(data);
     return data.deployments;
