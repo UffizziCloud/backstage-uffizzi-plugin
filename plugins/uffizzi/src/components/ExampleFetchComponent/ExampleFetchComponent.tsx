@@ -12,66 +12,66 @@ const useStyles = makeStyles({
   },
 });
 
-interface Deployment {
-  id: number
-  kind: string
-  project_id: number
-  created_at: string
-  updated_at: string
-  state: string
-  preview_url: string
-  tag: string
-  branch: any
-  commit: string
-  image_id: string
-  ingress_container_ready: boolean
-  ingress_container_state: string
-  creation_source: string
-  pull_request_number: string
-  containers: Container[]
-  deployed_by: DeployedBy
-  compose_file: ComposeFile
+type Deployment = {
+  id: number;
+  kind: string;
+  project_id: number;
+  created_at: string;
+  updated_at: string;
+  state: string;
+  preview_url: string;
+  tag: string;
+  branch: any;
+  commit: string;
+  image_id: string;
+  ingress_container_ready: boolean;
+  ingress_container_state: string;
+  creation_source: string;
+  pull_request_number: string;
+  containers: Container[];
+  deployed_by: DeployedBy;
+  compose_file: ComposeFile;
+};
+
+type Container = {
+  id: number;
+  kind: string;
+  image: string;
+  tag: string;
+  variables: Variable[];
+  secret_variables: any[];
+  created_at: string;
+  updated_at: string;
+  memory_limit: number;
+  memory_request: number;
+  entrypoint?: string;
+  command?: string;
+  port?: number;
+  public: boolean;
+  repo_id: number;
+  continuously_deploy: string;
+  receive_incoming_requests: boolean;
+  service_name: string;
+  controller_name: string;
+};
+
+type Variable = {
+  name: string;
+  value: string;
 }
 
-interface Container {
-  id: number
-  kind: string
-  image: string
-  tag: string
-  variables: Variable[]
-  secret_variables: any[]
-  created_at: string
-  updated_at: string
-  memory_limit: number
-  memory_request: number
-  entrypoint?: string
-  command?: string
-  port?: number
-  public: boolean
-  repo_id: number
-  continuously_deploy: string
-  receive_incoming_requests: boolean
-  service_name: string
-  controller_name: string
+type DeployedBy = {
+  kind: string;
+  avatar_url: string;
+  profile_url: string;
+  id: number;
 }
 
-interface Variable {
-  name: string
-  value: string
-}
-
-interface DeployedBy {
-  kind: string
-  avatar_url: string
-  profile_url: string
-  id: number
-}
-
-interface ComposeFile {
-  source: string
-  branch: any
-  path: string
-}
+type ComposeFile = {
+  source: string;
+  branch: any;
+  path: string;
+};
 
 
 type DenseTableProps = {
@@ -97,8 +97,8 @@ export const DenseTable = ({ deployments }: DenseTableProps) => {
 
   return (
     <Table
-      title="Example User List (fetching data from randomuser.me)"
-      options={{ search: false, paging: false }}
+      title="Uffizzi Deployments for Backstage"
+      options={{ search: false, paging: true }}
       columns={columns}
       data={data}
     />
@@ -108,8 +108,9 @@ export const DenseTable = ({ deployments }: DenseTableProps) => {
 export const ExampleFetchComponent = () => {
   const { fetch } = useApi(fetchApiRef);
   const { value, loading, error } = useAsync(async (): Promise<Deployment[]> => {
-    const response = await fetch('https://app.uffizzi.com/api/v1/public/projects/4436/deployments');
+    const response = await fetch('http://localhost:7007/api/proxy/uffizzi');
     const data = await response.json();
+    console.log(data);
     return data.deployments;
   }, []);
 
