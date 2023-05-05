@@ -7,7 +7,7 @@ jobs:
   build-backstage:
     defaults:
       run:
-        working-directory: ./uffizzi-backstage
+        working-directory: ./
     env:
       NODE_OPTIONS: --max-old-space-size=4096
       UFFIZZI_URL: https://uffizzi.com
@@ -48,8 +48,8 @@ jobs:
       - name: Build Image
         uses: docker/build-push-action@v4
         with:
-          context: ./uffizzi-backstage
-          file: ./uffizzi-backstage/packages/backend/Dockerfile
+          context: ./
+          file: /packages/backend/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
@@ -69,7 +69,7 @@ jobs:
           BACKSTAGE_IMAGE=$(echo ${{ needs.build-backstage.outputs.tags }})
           export BACKSTAGE_IMAGE
           # Render simple template from environment variables.
-          envsubst '$BACKSTAGE_IMAGE' < ./uffizzi-backstage/docker-compose.uffizzi.yml > docker-compose.rendered.yml
+          envsubst '$BACKSTAGE_IMAGE' < ./docker-compose.uffizzi.yml > docker-compose.rendered.yml
           cat docker-compose.rendered.yml
       - name: Upload Rendered Compose File as Artifact
         uses: actions/upload-artifact@v3
