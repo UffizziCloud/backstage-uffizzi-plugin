@@ -83,15 +83,20 @@ export const DenseTable = ({ deployments }: DenseTableProps) => {
 
   const columns: TableColumn[] = [
     { title: 'ID', field: 'id' },
-    { title: 'Pull Request Number', field: 'pull_request_number' },
+    { title: 'Created at', field: 'created_at' },
+    { title: 'Deployed by', field: 'deployed_by' },
     { title: 'Preview URL', field: 'preview_url' },
+    { title: 'State', field: 'state'}
+    
   ];
 
   const data = deployments.map(deployment => {
     return {
       id: `${deployment.id}`,
-      pull_request_number: deployment.pull_request_number,
+      deployed_by : deployment.deployed_by.profile_url,
+      created_at : deployment.created_at,
       preview_url: deployment.preview_url,
+      state: deployment.state
     };
   });
 

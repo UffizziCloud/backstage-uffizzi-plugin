@@ -49,7 +49,7 @@ integrations:
 proxy:
   '/uffizzi':
     changeOrigin: true
-    target: https://app.uffizzi.com/api/v1/public/projects/4436/deployments
+    target: https://app.uffizzi.com/api/v1/public/deployments/github.com/backstage/backstage
     headers:
       X-Custom-Source: backstage
 
